@@ -51,7 +51,7 @@ grunt.initConfig({
 
 #### options.siteBase
 Type: `String`
-Default value: `'/'`
+Default value: Homepage in package.json
 
 A string to be appended to the `href` on each anchor tag. Defaults to creating all links as relative to site root. For example, if you specify `http://example.com` as your base then the task will append that URL to the paths it finds.
 
@@ -90,11 +90,12 @@ In this example, custom options are used to do something else with whatever else
 grunt.initConfig({
   html_sitemap: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
+      separator: '-',
+      searchPath: 'src/',
+      siteBase: 'http://not-my-package-url.com/'
     },
     files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+      'dest/default_options': ['src/**/*.html']
     },
   },
 });
