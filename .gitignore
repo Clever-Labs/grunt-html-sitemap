@@ -1,3 +1,6 @@
 node_modules
 npm-debug.log
 tmp
+
+# Environment settings shouldn't be committed
+.nvmrc
