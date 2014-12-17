@@ -19,7 +19,7 @@ module.exports = function(grunt) {
     var options = this.options({
       siteBase: JSON.parse(grunt.file.read('package.json')).homepage,
       separator: false,
-      searchPath: '/test'
+      searchPath: ''
     });
 
     var markup = cheerio.load('<ul>\n</ul>');

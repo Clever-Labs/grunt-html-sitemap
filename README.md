@@ -4,6 +4,8 @@
 
 Useful for sites that maintain a `<ul>` sitemap on its own page that should be updated on each build or deploy.
 
+__Note:__ This task works but needs a lot of work. Pull requests are very welcome.
+
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
 
@@ -58,6 +60,12 @@ Type: `String`, `Boolean`
 Default value: `false`
 
 A string to separate page names from site names in title tags. Many sites use a "Page name | Company Name" format in their title tags. This task uses each page's title tag to generate anchor text for each list item in the sitemap. When this option is set the first part of the title tag before the separator will be used as anchor text.
+
+#### options.searchPath
+Type: `String`
+Default value: `''`
+
+A path prefix to strip from generated URLs.
 
 ### Usage Examples
 
