@@ -36,6 +36,12 @@ module.exports = function(grunt) {
           separator: '|',
           siteBase: 'https://cleverwebdesign.net'
         },
+        // files: [{
+        //   expand: true,
+        //   cwd: 'test/fixtures',
+        //   src: '**/*.html',
+        //   dest: 'tmp/result.html'
+        // }]
         files: {
           'tmp/result.html': ['test/fixtures/**/*.html']
         }
