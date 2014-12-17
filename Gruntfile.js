@@ -32,9 +32,12 @@ module.exports = function(grunt) {
     html_sitemap: {
       default_options: {
         options: {
+          searchPath: 'test/',
+          separator: '|',
+          siteBase: 'https://cleverwebdesign.net'
         },
         files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123']
+          'tmp/result.html': ['test/fixtures/**/*.html']
         }
       },
       custom_options: {

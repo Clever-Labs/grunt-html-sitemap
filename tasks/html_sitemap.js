@@ -10,41 +10,61 @@
 
 module.exports = function(grunt) {
 
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
+  // Gather up dependencies
+  var util    = require('util');
+  var cheerio = require('cheerio');
 
   grunt.registerMultiTask('html_sitemap', 'Create HTML sitemaps from a directory.', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
-      punctuation: '.',
-      separator: ', '
+      siteBase: JSON.parse(grunt.file.read('package.json')).homepage,
+      separator: false,
+      searchPath: '/test'
     });
 
-    // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
-      // Concat specified files.
-      var src = f.src.filter(function(filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
+    var markup = cheerio.load('<ul>\n</ul>');
+    var siteMap = [];
+
+    // Iterate over all the files
+    this.files.forEach(function(file) {
+      var page = file.src.filter(function(filepath) {
+        var extension = filepath.split('.').pop();
+        if (!grunt.file.exists(filepath) || grunt.file.isDir(filepath) || filepath.split('.').pop() !== 'html') {
+          grunt.log.writeln('Skipping ' + filepath);
           return false;
         } else {
           return true;
         }
       }).map(function(filepath) {
-        // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
+        if (typeof grunt.file.read(filepath) !== 'undefined') {
+          var $ = cheerio.load(grunt.file.read(filepath));
 
-      // Handle options.
-      src += options.punctuation;
-
-      // Write the destination file.
-      grunt.file.write(f.dest, src);
-
-      // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
+          siteMap.push({
+            url: options.siteBase + filepath.replace('index.html', ''),
+            file: file,
+            title: $('title').text()
+          }); 
+        }
+      });
     });
+
+    siteMap.forEach(function(page) {
+      var titleString = (typeof page.title === 'string' && typeof options.separator === 'string') ? page.title.split(options.separator)[0] : page.title;
+      markup('ul').append('  <li><a href="' + page.url + '">' + titleString + '</a></li>\n');
+    });
+
+    // Write result to file
+    grunt.file.write(this.files[0].dest, markup.html());
   });
 
+  function getAttributes(file, base) {
+    // Read file source.
+    var $ = cheerio.load(grunt.file.read(file));
+
+    return {
+      url: base + file.replace('index.html', ''),
+      file: file,
+      title: $('title').text()
+    }; 
+  }
 };
