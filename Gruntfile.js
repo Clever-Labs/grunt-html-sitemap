@@ -34,11 +34,12 @@ module.exports = function(grunt) {
         options: {
           searchPath: 'test/',
           separator: '|',
-          siteBase: 'https://cleverwebdesign.net'
+          template: 'test/fixtures/sitemap_template.html'
+          //siteBase: 'https://cleverwebdesign.net'
         },
         // files: [{
         //   expand: true,
-        //   cwd: 'test/fixtures',
+        //   cwd: 'test/fixtures/',
         //   src: '**/*.html',
         //   dest: 'tmp/result.html'
         // }]
