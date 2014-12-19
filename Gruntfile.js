@@ -34,7 +34,8 @@ module.exports = function(grunt) {
         options: {
           searchPath: 'test/',
           separator: '|',
-          template: 'test/fixtures/sitemap_template.html'
+          template: 'test/fixtures/sitemap_template.html',
+          descriptions: true
           //siteBase: 'https://cleverwebdesign.net'
         },
         // files: [{
