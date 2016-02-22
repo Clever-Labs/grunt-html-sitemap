@@ -73,6 +73,28 @@ Default value: `false`
 
 By default the task generates an HTML `<ul>` element in a file by itself (useful if you plan to inlcude the file elsewhere with another plugin). By providing the template option with the path to a template file you want the markup inserted into you can create full sitemap.html pages with the look and feel of your website dynamically. To use a template, provide this option with the path to the template file. Then, inside the template, add a `<%= sitemap %>` template string where you want the `<ul>` to be placed.
 
+#### options.descriptions
+Type: `Boolean`
+Default value: `false`
+
+Whether to include descriptions along with the anchor text. By default the descriptions will come from the page's `<meta />` description but can be overridden using the alternate description comment format shown below. Setting this to true will result in the following markup being generated:
+
+```html
+<ul>
+  <li><a href="/example">Example page</a>
+    <p>This comes from the meta description by default</p>
+  </li>
+  ...
+</ul>
+```
+
+#### Alternate description text
+If you choose to display descriptions of pages below the link generated in the sitemap you have the option to change the text that is shown from the default (what's contained in your meta description tag) to any other string by using the following special HTML comment format:
+
+```html
+<!-- sitemap:description This text is different than what's in my meta tag -->
+```
+
 #### Alternate anchor text
 In addition to the config options set in your Gruntfile, you have the ability to set custom anchor text by adding specially formatted HTML comment blocks to your markup. For example, a page with this markup:
 

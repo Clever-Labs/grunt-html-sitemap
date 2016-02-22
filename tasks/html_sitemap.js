@@ -22,7 +22,8 @@ module.exports = function(grunt) {
       siteBase: JSON.parse(grunt.file.read('package.json')).homepage,
       separator: false,
       searchPath: '',
-      template: false
+      template: false,
+      descriptions: false
     });
 
     var markup    = cheerio.load('<ul>\n</ul>');
@@ -66,19 +67,33 @@ module.exports = function(grunt) {
               options.anchor = option[3];
             } else if (option && option[1] === 'order') {
               options.order = option[2];
+            } else if (option && option[1] === 'description') {
+              options.description = option[3];
             }
           });
+
+          var $ = cheerio.load(pageData.contents); // Page data we can parse
 
           // Check if file needs to be read
           if (options.anchor) {
             pageData.anchor = options.anchor;
           } else {
-            var $ = cheerio.load(pageData.contents);
             pageData.anchor = (!taskOpts.separator) ? $('title').text() : $('title').text().split(taskOpts.separator)[0];
           }
 
-          // Append the new item to the sitemap <ul>
-          markup('ul').append('  <li><a href="' + pageData.path + '">' + pageData.anchor + '</a></li>\n');
+          // The minimal amount of code a sitemap item can have
+          var mapItemString = '  <li>\n<a href="' + pageData.path + '">' + pageData.anchor + '</a>';
+
+          if (taskOpts.descriptions) {
+            if (options.description) {
+              markup('ul').append(mapItemString + '\n  <p>' + options.description + '</p>\n</li>');
+            } else {
+              markup('ul').append(mapItemString + '\n  <p>' + $('meta[name="description"]').attr('content') + '</p>\n</li>');
+            }
+          } else {
+            // Append the new item to the sitemap <ul>
+            markup('ul').append(mapItemString + '</li>');
+          }
         });
       }
     });
