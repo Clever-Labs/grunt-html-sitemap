@@ -78,7 +78,7 @@ module.exports = function(grunt) {
           if (options.anchor) {
             pageData.anchor = options.anchor;
           } else {
-            pageData.anchor = (!taskOpts.separator) ? $('title').text() : $('title').text().split(taskOpts.separator)[0];
+            pageData.anchor = (!taskOpts.separator) ? $('head title').text() : $('head title').text().split(taskOpts.separator)[0];
           }
 
           // The minimal amount of code a sitemap item can have
