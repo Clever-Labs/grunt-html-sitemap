@@ -17,9 +17,12 @@ module.exports = function(grunt) {
 
   // Register our task
   grunt.registerMultiTask('html_sitemap', 'Create HTML sitemaps from a directory.', function() {
+    // Read package.json
+    const pkg = grunt.config.data.pkg || grunt.file.readJSON('package.json')
+
     // Merge task-specific and/or target-specific options with these defaults.
     var taskOpts = this.options({
-      siteBase: JSON.parse(grunt.file.read('package.json')).homepage,
+      siteBase: pkg.homepage,
       separator: false,
       searchPath: '',
       template: false,
@@ -98,7 +101,7 @@ module.exports = function(grunt) {
       }
     });
 
-    
+
     // Get unique destinations and write to them
     var destinations = _.uniq(outFiles, function(file) {
       if (taskOpts.template) {
